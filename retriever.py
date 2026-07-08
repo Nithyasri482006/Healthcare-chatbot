@@ -1,4 +1,4 @@
-from rag.embeddings import embedding_model
+from embeddings import embedding_model
 import numpy as np
 
 
