@@ -10,4 +10,5 @@ python-docx
 Pillow
 numpy
 torch
+torchvision
 transformers
