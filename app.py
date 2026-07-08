@@ -1,7 +1,7 @@
 import streamlit as st
 
-from utils.pdf_reader import extract_pdf_text
-from utils.text_splitter import split_text
+from pdf_reader import extract_pdf_text
+from text_splitter import import_split
 
 from rag.embeddings import create_embeddings
 from rag.vector_store import create_vector_store
