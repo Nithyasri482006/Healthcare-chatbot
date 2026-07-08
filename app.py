@@ -1,11 +1,9 @@
 import streamlit as st
-
 from pdf_reader import extract_pdf_text
-from text_splitter import import_split
-
-from rag.embeddings import create_embeddings
-from rag.vector_store import create_vector_store
-from rag.retriever import retrieve_context
+from text_splitter import split_text
+from embeddings import create_embeddings
+from vector_store import create_vector_store
+from retriever import retrieve_context
 
 from hf_chat import ask_ai
 
