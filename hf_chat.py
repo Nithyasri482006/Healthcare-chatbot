@@ -12,17 +12,25 @@ if not HF_TOKEN:
         "HF_TOKEN not found. Please add your Hugging Face token to the .env file."
     )
 
+# Initialize Hugging Face client
 client = InferenceClient(
-    provider="hf-inference",
-    api_key=HF_TOKEN,
+    api_key=HF_TOKEN
 )
 
-def ask_ai(context, question):
-    prompt = f"""
-You are an intelligent Healthcare AI Assistant.
+MODEL_NAME = "Qwen/Qwen2.5-7B-Instruct"
 
-Answer the user's question only using the provided context.
-If the answer is not available in the context, reply:
+def ask_ai(context, question):
+    """
+    Generate an answer using the retrieved context.
+    """
+
+    prompt = f"""
+You are an expert Healthcare AI Assistant.
+
+Answer ONLY using the information provided in the context.
+
+If the answer cannot be found in the context, reply exactly:
+
 "I couldn't find that information in the uploaded document."
 
 Context:
@@ -36,18 +44,25 @@ Answer:
 
     try:
         response = client.chat.completions.create(
-            model="HuggingFaceTB/SmolLM3-3B",
+            model=MODEL_NAME,
             messages=[
+                {
+                    "role": "system",
+                    "content": (
+                        "You are a professional healthcare document assistant. "
+                        "Answer only from the supplied context."
+                    ),
+                },
                 {
                     "role": "user",
                     "content": prompt,
-                }
+                },
             ],
             max_tokens=300,
-            temperature=0.3,
+            temperature=0.2,
         )
 
         return response.choices[0].message.content
 
     except Exception as e:
-        return f"Error while generating response:\n{str(e)}"
+        return f"Error: {str(e)}"
